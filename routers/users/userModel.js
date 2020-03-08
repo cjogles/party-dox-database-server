@@ -7,7 +7,7 @@ module.exports = {
     findById,
 };
 
-async function add() {
+function add() {
 
 };
 
