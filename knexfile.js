@@ -2,16 +2,9 @@ module.exports = {
 
   development: {
     client: 'pg',
-    connection: {
-      filename: './database/<database-filename>.db',
-    },
+    connection:'postgres://localhost/partydox',
     migrations: {
       directory: './database/migrations',
-    },
-    pool: {
-      afterCreate: (conn, done) => {
-        conn.run('PRAGMA foreign_keys = ON', done);
-      },
     },
     seeds: {
       directory: './database/seeds',
@@ -19,34 +12,28 @@ module.exports = {
     useNullAsDefault: true,
   },
 
-  testing: {
+  test: {
     client: 'pg',
-    connection: {
-      filename: './database/test.db',
-    },
+    connection:'postgres://localhost/partydoxtest',
     migrations: {
-      directory: './database/migrations',
+      directory: './db/migrations'
     },
     seeds: {
-      directory: './database/seeds',
+      directory: './db/seeds/test'
     },
-    useNullAsDefault: true,
+    useNullAsDefault: true
   },
 
   production: {
     client: 'pg',
     connection: process.env.DATABASE_URL,
-    pool: {
-      min: 2,
-      max: 10
-    },
     migrations: {
-      directory: './database/migrations',
+      directory: './db/migrations'
     },
     seeds: {
-      directory: './database/seeds',
+      directory: './db/seeds/production'
     },
-    useNullAsDefault: true,
+    useNullAsDefault: true
   }
 
 };
