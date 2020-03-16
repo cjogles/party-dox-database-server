@@ -11,7 +11,6 @@ exports.seed = function(knex) {
         friend_profile_pic: "profilepic1",
         friend_email: "email1",
         friend_phone: "phone1",
-        trip_id: "1"
       },
       {
         id: 2,
@@ -21,7 +20,6 @@ exports.seed = function(knex) {
         friend_profile_pic: "profilepic2",
         friend_email: "email2",
         friend_phone: "phone2",
-        trip_id: "2"
       },
       {
         id: 3,
@@ -31,7 +29,6 @@ exports.seed = function(knex) {
         friend_profile_pic: "profilepic3",
         friend_email: "email3",
         friend_phone: "phone3",
-        trip_id: "3"
       },
     ]);
   });

@@ -1,39 +1,45 @@
 module.exports = {
-
   development: {
-    client: 'pg',
-    connection:'postgres://localhost/partydox',
+    client: "pg",
+    connection: {
+      host : '127.0.0.1',
+      user : 'postgres',
+      password : 'Wavygravy12!',
+      database : 'partydox'
+    },
     migrations: {
-      directory: './database/migrations',
+      directory: "./database/migrations"
     },
     seeds: {
-      directory: './database/seeds',
-    },
-    useNullAsDefault: true,
-  },
-
-  test: {
-    client: 'pg',
-    connection:'postgres://localhost/partydoxtest',
-    migrations: {
-      directory: './db/migrations'
-    },
-    seeds: {
-      directory: './db/seeds/test'
+      directory: "./database/seeds"
     },
     useNullAsDefault: true
   },
-
-  production: {
-    client: 'pg',
-    connection: process.env.DATABASE_URL,
+  test: {
+    client: "pg",
+    connection: {
+      host : '127.0.0.1',
+      user : 'postgres',
+      password : 'Wavygravy12!',
+      database : 'partydox'
+    },
     migrations: {
-      directory: './db/migrations'
+      directory: "./database/migrations"
     },
     seeds: {
-      directory: './db/seeds/production'
+      directory: "./database/seeds/"
+    },
+    useNullAsDefault: true
+  },
+  production: {
+    client: "pg",
+    connection: process.env.DATABASE_URL,
+    migrations: {
+      directory: "./database/migrations"
+    },
+    seeds: {
+      directory: "./database/seeds"
     },
     useNullAsDefault: true
   }
-
 };
