@@ -13,6 +13,4 @@ function find() {}
 
 function findBy() {}
 
-function findById() {
-  ``;
-}
+function findById() {}
