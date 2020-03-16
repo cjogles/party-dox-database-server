@@ -1,24 +1,18 @@
-const db = require('../../database/dataBaseConfig');
+const db = require("../../database/dataBaseConfig");
 
 module.exports = {
-    add,
-    find,
-    findBy,
-    findById,
+  add,
+  find,
+  findBy,
+  findById
 };
 
-function add() {
+function add() {}
 
-};
+function find() {}
 
-function find() {
-    
-};
+function findBy() {}
 
-function findBy() {
-    
-};
-
-function findById() {``
-
-};
+function findById() {
+  ``;
+}

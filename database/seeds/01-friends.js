@@ -10,7 +10,7 @@ exports.seed = function(knex) {
         friend_name: "user1",
         friend_profile_pic: "profilepic1",
         friend_email: "email1",
-        friend_phone: "phone1",
+        friend_phone: "phone1"
       },
       {
         friend_id: 2,
@@ -19,7 +19,7 @@ exports.seed = function(knex) {
         friend_name: "user2",
         friend_profile_pic: "profilepic2",
         friend_email: "email2",
-        friend_phone: "phone2",
+        friend_phone: "phone2"
       },
       {
         friend_id: 3,
@@ -28,8 +28,8 @@ exports.seed = function(knex) {
         friend_name: "user3",
         friend_profile_pic: "profilepic3",
         friend_email: "email3",
-        friend_phone: "phone3",
-      },
+        friend_phone: "phone3"
+      }
     ]);
   });
 };

@@ -1,5 +1,6 @@
 exports.up = function(knex) {
   return knex.schema
+
     .createTable("trips", trip => {
       trip.increments("id");
       trip
@@ -14,8 +15,9 @@ exports.up = function(knex) {
       trip.integer("trip_upvote");
       trip.string("trip_note");
     })
+
     .createTable("friend_trips", friendTrips => {
-      friendTrips.increments('friend_trips_id');
+      friendTrips.increments("friend_trips_id");
       friendTrips
         .integer("friend_id")
         .unsigned()
@@ -32,8 +34,10 @@ exports.up = function(knex) {
         .onUpdate("CASCADE");
     });
 };
+
 exports.down = function(knex) {
   return knex.schema
+
     .dropTableIfExists("trips")
     .dropTableIfExists("friend_trips");
 };
