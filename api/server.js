@@ -3,7 +3,7 @@ const cors = require("cors");
 const helmet = require("helmet");
 const compression = require("compression");
 
-const userRouter = require("../routers/users/userRouter");
+const userRouter = require("../routers/users/friendRouter");
 
 const server = express();
 

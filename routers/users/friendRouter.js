@@ -2,7 +2,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const router = require("express").Router();
 const { jwtSecret } = require("../../config/secret");
-const Users = require("./userModel");
+const Friends = require("./friendModel");
 
 function generateToken(user) {
   const payload = {
@@ -19,38 +19,42 @@ router.post("/register", (req, res) => {
   const salt = bcrypt.genSalt(10);
   const hash = bcrypt.hashSync(password, salt);
   password = hash;
-  Users.add({ username: username, password: password })
-    .then(saved => {
-      res.status(201).json(saved);
+
+  Friends.add({ username: username, password: password })
+    .then(addedFriend => {
+      res.status(201).json(addedFriend);
     })
     .catch(error => {
-      res.status(500).json({ message: "Could not add the user.", error });
+      res
+        .status(500)
+        .json({ message: "Could not add the friend to partydox.", error });
     });
-  Users.findBy({ username })
+
+  Friends.findBy({ username })
     .first()
-    .then(user => {
-      if (user && password === user.password) {
-        const token = generateToken(user);
+    .then(friend => {
+      if (friend && password === friend.password) {
+        const token = generateToken(friend);
         res
           .status(200)
-          .json({ message: `Welcome, ${user.username}.`, token, user });
-      } else if (user && bcrypt.compareSync(password, user.password)) {
-        const token = generateToken(user);
+          .json({ message: `Welcome, ${friend.username}.`, token, friend });
+      } else if (friend && bcrypt.compareSync(password, friend.password)) {
+        const token = generateToken(friend);
         res
           .status(200)
-          .json({ message: `Welcome, ${user.username}.`, token, user });
+          .json({ message: `Welcome, ${friend.username}.`, token, friend });
       } else {
         res.status(401).json({ message: "Invalid credentials." });
       }
     })
     .catch(error => {
-      res.status(500).send(error);
+      res.status(500).send({ message: "Could not find friend", error });
     });
 });
 
 router.post("/login", (req, res) => {
   let { username, password } = req.body;
-  Users.findBy({ username })
+  Friends.findBy({ username })
     .first()
     .then(user => {
       if (user && password === user.password) {
