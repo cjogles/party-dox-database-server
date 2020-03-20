@@ -4,7 +4,7 @@
   "description": "party-dox-database-server",
   "main": "index.js",
   "scripts": {
-    "test": "jest --watch --verbose",
+    "test": "cross-env DB_ENV=test jest --watch --verbose --runInBand --detectOpenHandles",
     "server": "nodemon index.js",
     "start": "node index.js"
   },

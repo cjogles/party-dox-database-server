@@ -6,7 +6,9 @@ module.exports = (req, res, next) => {
   if (token) {
     jwt.verify(token, jwtSecret, (err, decodedToken) => {
       if (err) {
-        res.status(401).json({ message: "Error verifying token" });
+        res
+          .status(401)
+          .json({ message: "Error verifying token. You are UNAUTHORIZED" });
       } else {
         req.user = {
           id: decodedToken.subject,
@@ -16,6 +18,8 @@ module.exports = (req, res, next) => {
       }
     });
   } else {
-    res.status(401).json({ message: "No token provided." });
+    res
+      .status(401)
+      .json({ message: "No token provided. You are UNAUTHORIZED" });
   }
 };

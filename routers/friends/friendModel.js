@@ -12,10 +12,13 @@ module.exports = {
       .where("id", id)
       .del();
   },
-  findBy(friend) {
-    console.log(friend.username);
+  update(id, friend) {
     return db("friends")
-      .where({ username: friend.username })
-      .select("username", "password");
+      .where("id", id)
+      .update(friend, "*");
+  },
+  findBy(friend) {
+    console.log("&&&&&&&&&&", friend);
+    return db("friends").where(friend);
   }
 };

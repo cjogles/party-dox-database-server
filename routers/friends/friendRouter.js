@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const router = require("express").Router();
 const { jwtSecret } = require("../../config/secret");
 const Friends = require("./friendModel");
+const authMW = require("../auth/authMW");
 
 function generateToken(user) {
   const payload = {
@@ -14,7 +15,7 @@ function generateToken(user) {
   return jwt.sign(payload, jwtSecret, options);
 }
 
-function validFriend(friend) {
+function isValidFriend(friend) {
   const hasUsername =
     typeof friend.username == "string" && friend.username.trim() != "";
   const hasPassword =
@@ -22,6 +23,11 @@ function validFriend(friend) {
   const hasFriend_name =
     typeof friend.friend_name == "string" && friend.friend_name.trim() != "";
   return hasUsername && hasPassword && hasFriend_name;
+}
+
+function isValidId(req, res, next) {
+  if (!isNaN(req.params.id)) return next();
+  next(new Error("Invalid ID"));
 }
 
 router.get("/", (req, res) => {
@@ -32,7 +38,7 @@ router.get("/", (req, res) => {
 
 router.post("/register", (req, res, next) => {
   let friend = req.body;
-  if (validFriend(friend)) {
+  if (isValidFriend(friend)) {
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(friend.password, salt);
     password = hash;
@@ -52,41 +58,30 @@ router.post("/register", (req, res, next) => {
 });
 
 router.post("/login", (req, res) => {
-  Friends.findBy(req.body)
+  let { username, password } = req.body;
+  Friends.findBy({ username })
     .first()
-    .then(res => {
-      console.log(res);
-      res.status(200).json({ response: "response from login:", res });
+    .then(friend => {
+      if (friend && password === friend.password) {
+        const token = generateToken(friend);
+        res
+          .status(200)
+          .json({ message: `Welcome, ${friend.username}.`, token, friend });
+      } else if (friend && bcrypt.compareSync(password, friend.password)) {
+        const token = generateToken(friend);
+        res
+          .status(200)
+          .json({ message: `Welcome, ${friend.username}.`, token, friend });
+      } else {
+        res.status(401).json({ message: "Invalid credentials." });
+      }
     })
-    .catch(err => {
-      console.log(res);
-      res
-        .status(500)
-        .json({ error: "response of the logged in friend failed", err });
+    .catch(error => {
+      res.status(500).send(error);
     });
-  // .then(friend => {
-  //   // return friend in table of friends
-  //   // if friend exists, and if friends password is equal to
-  //   if (friend && password === friend.password) {
-  //     const token = generateToken(friend);
-  //     res
-  //       .status(200)
-  //       .json({ message: `Welcome, ${friend.username}.`, token, friend });
-  //   } else if (user && bcrypt.compareSync(password, friend.password)) {
-  //     const token = generateToken(friend);
-  //     res
-  //       .status(200)
-  //       .json({ message: `Welcome, ${user.username}.`, token, friend });
-  //   } else {
-  //     res.status(401).json({ message: "Invalid credentials." });
-  //   }
-  // })
-  // .catch(error => {
-  //   res.status(500).send({ message: "Could not find friend", error });
-  // });
 });
 
-router.delete("/:id", (req, res) => {
+router.delete("/:id", isValidId, authMW, (req, res) => {
   Friends.delete(req.params.id).then(() => {
     res
       .status(200)
@@ -95,6 +90,16 @@ router.delete("/:id", (req, res) => {
         err.status(500).json({ error: "error deleting friend from DB", err });
       });
   });
+});
+
+router.put("/:id", isValidId, authMW, (req, res, next) => {
+  if (isValidFriend(req.body)) {
+    Friends.update(req.params.id, req.body).then(friends => {
+      res.status(200).json(friends[0]);
+    });
+  } else {
+    next(new Error("Invalid Friend"));
+  }
 });
 
 module.exports = router;
