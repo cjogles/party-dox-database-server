@@ -1,15 +1,21 @@
-const db = require("../../database/dataBaseConfig");
+const db = require("../../database/knex");
 
 module.exports = {
-  add,
-  findBy
+  getAll() {
+    return db("friends");
+  },
+  add(friend) {
+    return db("friends").insert(friend, "*");
+  },
+  delete(id) {
+    return db("friends")
+      .where("id", id)
+      .del();
+  },
+  findBy(friend) {
+    console.log(friend.username);
+    return db("friends")
+      .where({ username: friend.username })
+      .select("username", "password");
+  }
 };
-
-// add a friend to partydox DB, has an id, username, password, friend_name, friend_profile_pic, friend_email and a friend_phone. currently only getting passed username and pass.
-function add(friend) {
-  db("friends").insert(friend);
-}
-
-function findBy(filter) {
-  db("friends").where(filter);
-}

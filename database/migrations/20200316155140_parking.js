@@ -7,7 +7,7 @@ exports.up = function(knex) {
     parking_lot.string("parking_lot_cost").notNullable();
     parking_lot.string("parking_lot_hours");
     parking_lot.integer("parking_upvote");
-    parking_lot.integer("parking_lot_note");
+    parking_lot.string("parking_lot_note");
   });
 };
 exports.down = function(knex) {

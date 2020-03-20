@@ -3,7 +3,7 @@ const cors = require("cors");
 const helmet = require("helmet");
 const compression = require("compression");
 
-const userRouter = require("../routers/users/friendRouter");
+const friendRouter = require("../routers/users/friendRouter");
 
 const server = express();
 
@@ -12,10 +12,10 @@ server.use(helmet());
 server.use(cors());
 server.use(express.json());
 
-server.use("/users", userRouter);
+server.use("/friends", friendRouter);
 
 server.get("/", (req, res) => {
-  res.status(200).json({ message: "Server is up and running." });
+  res.status(200).json({ api: "running" });
 });
 
 module.exports = server;

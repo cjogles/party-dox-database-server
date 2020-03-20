@@ -1,12 +1,11 @@
 module.exports = {
-  
   development: {
     client: "pg",
     connection: {
-      host : '127.0.0.1',
-      user : 'postgres',
-      password : 'Wavygravy12!',
-      database : 'partydox'
+      host: "127.0.0.1",
+      user: "postgres",
+      password: "Wavygravy12!",
+      database: "partydox"
     },
     migrations: {
       directory: "./database/migrations"
@@ -20,10 +19,10 @@ module.exports = {
   test: {
     client: "pg",
     connection: {
-      host : '127.0.0.1',
-      user : 'postgres',
-      password : 'Wavygravy12!',
-      database : 'partydox'
+      host: "127.0.0.1",
+      user: "postgres",
+      password: "Wavygravy12!",
+      database: "test_partydox"
     },
     migrations: {
       directory: "./database/migrations"
@@ -45,5 +44,4 @@ module.exports = {
     },
     useNullAsDefault: true
   }
-
 };

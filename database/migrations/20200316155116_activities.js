@@ -3,6 +3,7 @@ exports.up = function(knex) {
     activity.increments("id");
     activity.string("activity_name").notNullable();
     activity.string("activity_description");
+    activity.string("trip_lift_off_location");
     activity.string("activity_start_date");
     activity.string("activity_end_date");
     activity.string("activity_address");

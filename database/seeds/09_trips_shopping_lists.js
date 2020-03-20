@@ -1,6 +1,6 @@
 exports.seed = function(knex) {
   return knex("trips_shopping_lists").then(function() {
-    return knex("trips_shopping_list").insert([
+    return knex("trips_shopping_lists").insert([
       {
         trip_shopping_list_id: 1,
         trip_id: 1,
