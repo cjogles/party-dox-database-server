@@ -1,10 +1,12 @@
+const secret = process.env.SECRET;
+
 module.exports = {
   development: {
     client: "pg",
     connection: {
       host: "127.0.0.1",
       user: "postgres",
-      password: "Wavygravy12!",
+      password: secret,
       database: "partydox"
     },
     migrations: {
@@ -21,7 +23,7 @@ module.exports = {
     connection: {
       host: "127.0.0.1",
       user: "postgres",
-      password: "Wavygravy12!",
+      password: secret,
       database: "test_partydox"
     },
     migrations: {
