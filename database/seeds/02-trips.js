@@ -10,7 +10,7 @@ exports.seed = function(knex) {
         trip_start_date: "trip_start_date1",
         trip_end_date: "trip_end_date2",
         trip_upvote: 1,
-        trip_note: "note1"
+        trip_notes: "note1"
       },
       {
         id: 2,
@@ -21,7 +21,7 @@ exports.seed = function(knex) {
         trip_start_date: "trip_start_date2",
         trip_end_date: "trip_end_date2",
         trip_upvote: 2,
-        trip_note: "note2"
+        trip_notes: "note2"
       },
       {
         id: 3,
@@ -32,7 +32,7 @@ exports.seed = function(knex) {
         trip_start_date: "trip_start_date3",
         trip_end_date: "trip_end_date3",
         trip_upvote: 3,
-        trip_note: "note3"
+        trip_notes: "note3"
       }
     ]);
   });

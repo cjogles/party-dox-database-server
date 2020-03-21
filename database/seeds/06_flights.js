@@ -3,6 +3,7 @@ exports.seed = function(knex) {
     return knex("flights").insert([
       {
         id: 1,
+        trip_id: 3,
         departure_date: "departuredate1",
         departure_airport_name: "departureairport1",
         departure_airport_address: "departureairportaddress1",
@@ -11,7 +12,7 @@ exports.seed = function(knex) {
         departure_flight_number: "departureflightnum1",
         departure_terminal: "departureterminal1",
         departure_gate: "departuregate1",
-        departure_flight_note: "departureflightnote1",
+        departure_flight_notes: "departureflightnote1",
         arrival_date: "arrivaldate1",
         arrival_airport_name: "arrivalairportname1",
         arrival_airport_address: "arrivalairportadd1",
@@ -20,12 +21,13 @@ exports.seed = function(knex) {
         arrival_flight_number: "arrivalflightnum1",
         arrival_terminal: "arrivalterminal1",
         arrival_gate: "arrivalgate1",
-        arrival_flight_note: "arrivalflightnote1",
+        arrival_flight_notes: "arrivalflightnote1",
         total_flight_cost: "totalflightcost1",
         flight_combo_upvote: 1
       },
       {
         id: 2,
+        trip_id: 2,
         departure_date: "departuredate2",
         departure_airport_name: "departureairport2",
         departure_airport_address: "departureairportaddress2",
@@ -34,7 +36,7 @@ exports.seed = function(knex) {
         departure_flight_number: "departureflightnum2",
         departure_terminal: "departureterminal2",
         departure_gate: "departuregate2",
-        departure_flight_note: "departureflightnote2",
+        departure_flight_notes: "departureflightnote2",
         arrival_date: "arrivaldate2",
         arrival_airport_name: "arrivalairportname2",
         arrival_airport_address: "arrivalairportadd2",
@@ -43,12 +45,13 @@ exports.seed = function(knex) {
         arrival_flight_number: "arrivalflightnum2",
         arrival_terminal: "arrivalterminal2",
         arrival_gate: "arrivalgate2",
-        arrival_flight_note: "arrivalflightnote2",
+        arrival_flight_notes: "arrivalflightnote2",
         total_flight_cost: "totalflightcost2",
         flight_combo_upvote: 2
       },
       {
         id: 3,
+        trip_id: 1,
         departure_date: "departuredate3",
         departure_airport_name: "departureairport3",
         departure_airport_address: "departureairportaddress3",
@@ -57,7 +60,7 @@ exports.seed = function(knex) {
         departure_flight_number: "departureflightnum3",
         departure_terminal: "departureterminal3",
         departure_gate: "departuregate3",
-        departure_flight_note: "departureflightnote3",
+        departure_flight_notes: "departureflightnote3",
         arrival_date: "arrivaldate3",
         arrival_airport_name: "arrivalairportname3",
         arrival_airport_address: "arrivalairportadd3",
@@ -66,7 +69,7 @@ exports.seed = function(knex) {
         arrival_flight_number: "arrivalflightnum3",
         arrival_terminal: "arrivalterminal3",
         arrival_gate: "arrivalgate3",
-        arrival_flight_note: "arrivalflightnote3",
+        arrival_flight_notes: "arrivalflightnote3",
         total_flight_cost: "totalflightcost3",
         flight_combo_upvote: 3
       }
