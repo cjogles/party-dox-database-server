@@ -37,13 +37,11 @@ router.get("/", (req, res) => {
 });
 
 router.post("/register", (req, res, next) => {
-  let friend = req.body;
-  if (isValidFriend(friend)) {
+  if (isValidFriend(req.body)) {
     const salt = bcrypt.genSaltSync(10);
-    const hash = bcrypt.hashSync(friend.password, salt);
+    const hash = bcrypt.hashSync(req.body.password, salt);
     password = hash;
-
-    Friends.add(friend)
+    Friends.add({ ...req.body, password: password })
       .then(addedFriend => {
         res.status(201).json(addedFriend[0]);
       })

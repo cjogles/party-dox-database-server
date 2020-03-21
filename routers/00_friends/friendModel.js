@@ -18,7 +18,6 @@ module.exports = {
       .update(friend, "*");
   },
   findBy(friend) {
-    console.log("&&&&&&&&&&", friend);
     return db("friends").where(friend);
   }
 };
