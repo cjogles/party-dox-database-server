@@ -6,7 +6,7 @@ module.exports = {
     connection: {
       host: "127.0.0.1",
       user: "postgres",
-      password: secret,
+      password: "Wavygravy12!",
       database: "partydox"
     },
     migrations: {

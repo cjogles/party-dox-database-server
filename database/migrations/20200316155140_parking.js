@@ -8,6 +8,13 @@ exports.up = function(knex) {
       .inTable("trips")
       .onDelete("CASCADE")
       .onUpdate("CASCADE");
+    parking_lot
+      .integer("activity_id")
+      .unsigned()
+      .references("id")
+      .inTable("activities")
+      .onDelete("CASCADE")
+      .onUpdate("CASCADE");
     parking_lot.string("parking_lot_name").notNullable();
     parking_lot.string("parking_lot_address");
     parking_lot.string("parking_lot_phone");

@@ -4,6 +4,7 @@ exports.seed = function(knex) {
       {
         id: 1,
         trip_id: 3,
+        activity_id: 3,
         parking_lot_name: "parking1",
         parking_lot_address: "parkingadd1",
         parking_lot_phone: "parkingphone1",
@@ -15,6 +16,7 @@ exports.seed = function(knex) {
       {
         id: 2,
         trip_id: 2,
+        activity_id: 2,
         parking_lot_name: "parking2",
         parking_lot_address: "parkingadd2",
         parking_lot_phone: "parkingphone2",
@@ -26,6 +28,7 @@ exports.seed = function(knex) {
       {
         id: 3,
         trip_id: 1,
+        activity_id: 1,
         parking_lot_name: "parking3",
         parking_lot_address: "parkingadd3",
         parking_lot_phone: "parkingphone3",
