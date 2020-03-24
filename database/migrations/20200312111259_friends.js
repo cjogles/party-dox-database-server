@@ -5,6 +5,7 @@ exports.up = function(knex) {
       .string("username")
       .notNullable()
       .unique();
+    friend.string("role");
     friend.string("password").notNullable();
     friend.string("friend_name").notNullable();
     friend.string("friend_profile_pic");

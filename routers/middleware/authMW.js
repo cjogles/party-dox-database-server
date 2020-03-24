@@ -10,9 +10,10 @@ module.exports = (req, res, next) => {
           .status(401)
           .json({ message: "Error verifying token. You are UNAUTHORIZED" });
       } else {
-        req.user = {
-          id: decodedToken.subject,
-          username: decodedToken.username
+        req.friend = {
+          id: decodedToken.id,
+          username: decodedToken.username,
+          role: decodedToken.role
         };
         next();
       }

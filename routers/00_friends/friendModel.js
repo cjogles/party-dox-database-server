@@ -19,5 +19,10 @@ module.exports = {
   },
   findBy(friend) {
     return db("friends").where(friend);
+  },
+  FindById(id) {
+    return db("friends")
+      .where("id", id)
+      .select("*");
   }
 };

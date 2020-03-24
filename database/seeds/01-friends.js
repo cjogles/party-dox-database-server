@@ -6,6 +6,7 @@ exports.seed = function(knex) {
       {
         id: 1,
         username: "jackattack",
+        role: "admin",
         password: bcrypt.hashSync("password1", bcrypt.genSaltSync(10)),
         friend_name: "Jack Johnson",
         friend_profile_pic: "profilepic1",
@@ -15,6 +16,7 @@ exports.seed = function(knex) {
       {
         id: 2,
         username: "wavy",
+        role: "user",
         password: bcrypt.hashSync("password2", bcrypt.genSaltSync(10)),
         friend_name: "Waverli Ogles",
         friend_profile_pic: "profilepic2",
@@ -24,6 +26,7 @@ exports.seed = function(knex) {
       {
         id: 3,
         username: "bogles",
+        role: "user",
         password: bcrypt.hashSync("password3", bcrypt.genSaltSync(10)),
         friend_name: "Ben Ogles",
         friend_profile_pic: "profilepic3",
