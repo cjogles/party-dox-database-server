@@ -21,7 +21,7 @@ function generateToken(friend) {
 }
 
 router.get("/", authMW, checkRole("admin"), (req, res) => {
-  Friends.getAll().then(friends => {
+  Friends.getAll(req.query).then(friends => {
     res.json(friends);
   });
 });
@@ -93,6 +93,14 @@ router.put("/:id", checkID, authMW, checkRole("admin"), (req, res, next) => {
     })
     .catch(err => {
       res.status(500).json({ error: "error updating friend", err });
+    });
+});
+
+router.get("/:id", checkID, authMW, checkRole("admin"), (req, res, next) => {
+  Friends.FindById(req.params.id)
+    .then(foundFriend => res.status(200).json(foundFriend))
+    .catch(err => {
+      res.status(500).json({ error: "didn't find friend in database" });
     });
 });
 

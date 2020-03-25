@@ -1,8 +1,19 @@
 const db = require("../../database/knex");
 
 module.exports = {
-  getAll() {
-    return db("friends");
+  getAll(query) {
+    const { username, friend_name, friend_email, friend_phone } = req.query;
+    const knexQuery = db("friends");
+    if (username) {
+      knexQuery.where("username", "like", `%${username}%`);
+    } else if (friend_name) {
+      knexQuery.where("friend_name", "like", `%${friend_name}%`);
+    } else if (friend_email) {
+      knexQuery.where("friend_email", "like", `%${friend_email}%`);
+    } else if (friend_phone) {
+      knexQuery.where("friend_phone", "like", `%${friend_phone}%`);
+    }
+    return knexQuery;
   },
   add(friend) {
     return db("friends").insert(friend, "*");
