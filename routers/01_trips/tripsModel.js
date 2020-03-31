@@ -9,9 +9,4 @@ module.exports = {
       .where("friend_id", id)
       .innerJoin("trips", "friend_trips.trip_id", "trips.id");
   }
-  // addTrip(tripDetails) {
-  //   return db("trips")
-  //     .insert(tripDetails)
-  //     .returning("trip_id");
-  // }
 };
