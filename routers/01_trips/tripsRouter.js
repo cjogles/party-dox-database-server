@@ -11,7 +11,10 @@ router.get("/", authMW, checkRole("admin"), (req, res) => {
       res.status(500).json({ error: "Error retrieving trips", error })
     );
 });
-
+// front end client is going to request a certain friends trips
+// at that point my api will acertain if that friends id, is the
+// the same id as the the friend who logged in. Other wise
+// api will throw a 400 error saying its forbidden
 router.get("/:id", authMW, checkRole("admin"), (req, res) => {
   Trip.getFriendTrips(req.params.id)
     .then(trips => res.status(200).json(trips))

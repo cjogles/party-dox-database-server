@@ -15,6 +15,9 @@ module.exports = (req, res, next) => {
           username: decodedToken.username,
           role: decodedToken.role
         };
+        // add another middleware function that will handle
+        // if the friend id is the same in params
+        // and the from the decoded token :) Thanks ben!
         next();
       }
     });
