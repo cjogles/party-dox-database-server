@@ -6,6 +6,7 @@ const Friends = require("./friendModel");
 const authMW = require("../middleware/authMW");
 const checkRole = require("../middleware/checkRole");
 const checkID = require("../middleware/checkID");
+const checkFriend = require("../middleware/checkFriend");
 const { isValidFriend } = require("../middleware/validEntities");
 
 function generateToken(friend) {
@@ -20,6 +21,7 @@ function generateToken(friend) {
   return jwt.sign(payload, jwtSecret, options);
 }
 
+// ROUTES TO REGISTER AND LOGIN
 router.post("/register", (req, res, next) => {
   if (isValidFriend(req.body)) {
     const salt = bcrypt.genSaltSync(10);
@@ -63,16 +65,8 @@ router.post("/login", (req, res) => {
     });
 });
 
-router.get("/", authMW, checkRole("admin"), (req, res) => {
-  const { username, friend_name, friend_email, friend_phone } = req.query;
-  Friends.getAll({ username, friend_name, friend_email, friend_phone }).then(
-    friends => {
-      res.json(friends);
-    }
-  );
-});
-
-router.get("/:id", checkID, authMW, checkRole("admin"), (req, res, next) => {
+// ROUTES FOR LOGGED NORMAL USERS
+router.get("/user/:id", authMW, checkID, checkFriend, (req, res, next) => {
   Friends.FindById(req.params.id)
     .then(foundFriend => res.status(200).json(foundFriend))
     .catch(err => {
@@ -80,7 +74,7 @@ router.get("/:id", checkID, authMW, checkRole("admin"), (req, res, next) => {
     });
 });
 
-router.put("/:id", checkID, authMW, checkRole("admin"), (req, res, next) => {
+router.put("/user/:id", authMW, checkID, checkFriend, (req, res, next) => {
   Friends.update(req.params.id, req.body)
     .then(friends => {
       res.status(200).json({ id: friends[0].id, updated: true });
@@ -90,7 +84,52 @@ router.put("/:id", checkID, authMW, checkRole("admin"), (req, res, next) => {
     });
 });
 
-router.delete("/:id", checkID, authMW, checkRole("admin"), (req, res) => {
+router.delete("/user/:id", authMW, checkID, checkFriend, (req, res) => {
+  Friends.delete(req.params.id)
+    .then(deleted => {
+      if (deleted === 0) {
+        res.status(400).json({
+          message: "not deleted, friend with specified id doesn't exist."
+        });
+      } else {
+        res.status(200).json({ deleted: true });
+      }
+    })
+
+    .catch(err => {
+      res.status(500).json({ error: "error deleting friend from DB", err });
+    });
+});
+
+// ROUTES FOR LOGGED IN ADMIN
+router.get("/", authMW, checkRole("admin"), (req, res) => {
+  const { username, friend_name, friend_email, friend_phone } = req.query;
+  Friends.getAll({ username, friend_name, friend_email, friend_phone }).then(
+    friends => {
+      res.json(friends);
+    }
+  );
+});
+
+router.get("/:id", authMW, checkID, checkRole("admin"), (req, res, next) => {
+  Friends.FindById(req.params.id)
+    .then(foundFriend => res.status(200).json(foundFriend))
+    .catch(err => {
+      res.status(500).json({ error: "didn't find friend in database" });
+    });
+});
+
+router.put("/:id", authMW, checkID, checkRole("admin"), (req, res, next) => {
+  Friends.update(req.params.id, req.body)
+    .then(friends => {
+      res.status(200).json({ id: friends[0].id, updated: true });
+    })
+    .catch(err => {
+      res.status(500).json({ error: "error updating friend", err });
+    });
+});
+
+router.delete("/:id", authMW, checkID, checkRole("admin"), (req, res) => {
   Friends.delete(req.params.id)
     .then(deleted => {
       if (deleted === 0) {

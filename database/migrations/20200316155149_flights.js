@@ -31,7 +31,6 @@ exports.up = function(knex) {
       flight.integer("flight_combo_upvote");
     })
     .createTable("friend_trips", friendTrips => {
-      friendTrips.increments("friend_trips_id");
       friendTrips
         .integer("friend_id")
         .unsigned()
@@ -46,6 +45,9 @@ exports.up = function(knex) {
         .inTable("trips")
         .onDelete("CASCADE")
         .onUpdate("CASCADE");
+      friendTrips
+        .increments("friend_trips_id")
+        .primary(["friend_id", "trip_id"]);
     });
 };
 exports.down = function(knex) {
