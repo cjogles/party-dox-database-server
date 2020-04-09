@@ -13,10 +13,10 @@ function generateToken(friend) {
   const payload = {
     id: friend.id,
     username: friend.username,
-    role: friend.role
+    role: friend.role,
   };
   const options = {
-    expiresIn: "7d"
+    expiresIn: "7d",
   };
   return jwt.sign(payload, jwtSecret, options);
 }
@@ -26,12 +26,35 @@ router.post("/register", (req, res, next) => {
   if (isValidFriend(req.body)) {
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(req.body.password, salt);
-    password = hash;
+    const password = hash;
+    const username = req.body.username;
     Friends.add({ ...req.body, password: password })
-      .then(addedFriend => {
-        res.status(201).json(addedFriend[0].id);
+      .then(() => {
+        Friends.findBy({ username })
+          .first()
+          .then((friend) => {
+            if (friend && password === friend.password) {
+              const token = generateToken(friend);
+              res
+                .status(200)
+                .json({ message: `Welcome, ${friend.username}.`, token });
+            } else if (
+              friend &&
+              bcrypt.compareSync(password, friend.password)
+            ) {
+              const token = generateToken(friend);
+              res
+                .status(200)
+                .json({ message: `Welcome, ${friend.username}.`, token });
+            } else {
+              res.status(401).json({ message: "Invalid credentials." });
+            }
+          })
+          .catch((error) => {
+            res.status(500).send(error);
+          });
       })
-      .catch(error => {
+      .catch((error) => {
         res
           .status(500)
           .json({ message: "Could not add the friend to partydox.", error });
@@ -45,7 +68,7 @@ router.post("/login", (req, res) => {
   let { username, password } = req.body;
   Friends.findBy({ username })
     .first()
-    .then(friend => {
+    .then((friend) => {
       if (friend && password === friend.password) {
         const token = generateToken(friend);
         res
@@ -60,7 +83,7 @@ router.post("/login", (req, res) => {
         res.status(401).json({ message: "Invalid credentials." });
       }
     })
-    .catch(error => {
+    .catch((error) => {
       res.status(500).send(error);
     });
 });
@@ -68,35 +91,35 @@ router.post("/login", (req, res) => {
 // ROUTES FOR LOGGED NORMAL USERS
 router.get("/user/:id", authMW, checkID, checkFriend, (req, res, next) => {
   Friends.FindById(req.params.id)
-    .then(foundFriend => res.status(200).json(foundFriend))
-    .catch(err => {
+    .then((foundFriend) => res.status(200).json(foundFriend))
+    .catch((err) => {
       res.status(500).json({ error: "didn't find friend in database" });
     });
 });
 
 router.put("/user/:id", authMW, checkID, checkFriend, (req, res, next) => {
   Friends.update(req.params.id, req.body)
-    .then(friends => {
+    .then((friends) => {
       res.status(200).json({ id: friends[0].id, updated: true });
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(500).json({ error: "error updating friend", err });
     });
 });
 
 router.delete("/user/:id", authMW, checkID, checkFriend, (req, res) => {
   Friends.delete(req.params.id)
-    .then(deleted => {
+    .then((deleted) => {
       if (deleted === 0) {
         res.status(400).json({
-          message: "not deleted, friend with specified id doesn't exist."
+          message: "not deleted, friend with specified id doesn't exist.",
         });
       } else {
         res.status(200).json({ deleted: true });
       }
     })
 
-    .catch(err => {
+    .catch((err) => {
       res.status(500).json({ error: "error deleting friend from DB", err });
     });
 });
@@ -105,7 +128,7 @@ router.delete("/user/:id", authMW, checkID, checkFriend, (req, res) => {
 router.get("/", authMW, checkRole("admin"), (req, res) => {
   const { username, friend_name, friend_email, friend_phone } = req.query;
   Friends.getAll({ username, friend_name, friend_email, friend_phone }).then(
-    friends => {
+    (friends) => {
       res.json(friends);
     }
   );
@@ -113,35 +136,35 @@ router.get("/", authMW, checkRole("admin"), (req, res) => {
 
 router.get("/:id", authMW, checkID, checkRole("admin"), (req, res, next) => {
   Friends.FindById(req.params.id)
-    .then(foundFriend => res.status(200).json(foundFriend))
-    .catch(err => {
+    .then((foundFriend) => res.status(200).json(foundFriend))
+    .catch((err) => {
       res.status(500).json({ error: "didn't find friend in database" });
     });
 });
 
 router.put("/:id", authMW, checkID, checkRole("admin"), (req, res, next) => {
   Friends.update(req.params.id, req.body)
-    .then(friends => {
+    .then((friends) => {
       res.status(200).json({ id: friends[0].id, updated: true });
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(500).json({ error: "error updating friend", err });
     });
 });
 
 router.delete("/:id", authMW, checkID, checkRole("admin"), (req, res) => {
   Friends.delete(req.params.id)
-    .then(deleted => {
+    .then((deleted) => {
       if (deleted === 0) {
         res.status(400).json({
-          message: "not deleted, friend with specified id doesn't exist."
+          message: "not deleted, friend with specified id doesn't exist.",
         });
       } else {
         res.status(200).json({ deleted: true });
       }
     })
 
-    .catch(err => {
+    .catch((err) => {
       res.status(500).json({ error: "error deleting friend from DB", err });
     });
 });

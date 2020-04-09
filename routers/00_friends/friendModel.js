@@ -21,21 +21,15 @@ module.exports = {
     return db("friends").where(friend);
   },
   FindById(id) {
-    return db("friends")
-      .where("id", id)
-      .select("*");
+    return db("friends").where("id", id).select("*");
   },
   add(friend) {
     return db("friends").insert(friend, "*");
   },
   update(id, friend) {
-    return db("friends")
-      .where("id", id)
-      .update(friend, "*");
+    return db("friends").where("id", id).update(friend, "*");
   },
   delete(id) {
-    return db("friends")
-      .where("id", id)
-      .del();
-  }
+    return db("friends").where("id", id).del();
+  },
 };
