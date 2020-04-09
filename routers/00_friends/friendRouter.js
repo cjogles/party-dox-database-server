@@ -148,7 +148,7 @@ router.put("/:id", authMW, checkID, checkRole("admin"), (req, res, next) => {
       res.status(200).json({ id: friends[0].id, updated: true });
     })
     .catch((err) => {
-      res.status(500).json({ error: "error updating friend", err });
+      res.status(500).json({ error: "error updating friend" });
     });
 });
 
