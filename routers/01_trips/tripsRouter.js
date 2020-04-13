@@ -26,7 +26,7 @@ router.get("/user/:id/trip/:tripId", authMW, checkFriend, (req, res) => {
     });
 });
 
-router.post("/user/:id/trip/:tripId", authMW, checkFriend, (req, res) => {
+router.post("/user/:id/", authMW, checkFriend, (req, res) => {
   Trip.addTrip(req.params.id, req.body)
     .then((added) => {
       res.status(201).json({ message: "added trip to friend account", added });

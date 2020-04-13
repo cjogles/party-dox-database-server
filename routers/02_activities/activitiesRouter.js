@@ -4,12 +4,7 @@ const authMW = require("../middleware/authMW");
 const checkRole = require("../middleware/checkRole");
 const checkFriend = require("../middleware/checkFriend");
 
-// Get All their activities DONE ****
-// Get one of their activites by id
-// Add an activity to their list
-// Edit activity by id in their list
-// Delete activity by id in their list
-
+//LOGGED IN USER ROUTES
 router.get(
   "/user/:id/activityTrip/:tripId",
   authMW,
@@ -127,7 +122,7 @@ router.get("/:id", authMW, checkRole("admin"), (req, res) => {
     });
 });
 
-router.post("/:tripId", authMW, checkRole("admin"), (req, res) => {
+router.post("/activityTrip/:tripId", authMW, checkRole("admin"), (req, res) => {
   let activity = req.body;
   activity.trip_id = req.params.tripId;
   Activity.addActivity(activity)
@@ -152,7 +147,7 @@ router.put("/:activityId", authMW, checkRole("admin"), (req, res) => {
 });
 
 router.delete("/:activityId", authMW, checkRole("admin"), (req, res) => {
-  Activity.deleteActivity(req.params.id)
+  Activity.deleteActivity(req.params.activityId)
     .then((deleted) => {
       if (deleted === 0) {
         res.status(400).json({
