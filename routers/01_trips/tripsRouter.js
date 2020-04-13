@@ -26,7 +26,7 @@ router.get("/user/:id/trip/:tripId", authMW, checkFriend, (req, res) => {
     });
 });
 
-router.post("/user/:id/", authMW, checkFriend, (req, res) => {
+router.post("/user/:id", authMW, checkFriend, (req, res) => {
   Trip.addTrip(req.params.id, req.body)
     .then((added) => {
       res.status(201).json({ message: "added trip to friend account", added });
@@ -35,6 +35,21 @@ router.post("/user/:id/", authMW, checkFriend, (req, res) => {
       res
         .status(500)
         .json({ error: "Error adding a trip to friends account.", err });
+    });
+});
+
+// add a trip to friends dashboard
+router.post("/user/:id/userJoin/:tripId", authMW, checkFriend, (req, res) => {
+  Trip.addJoin(req.params.tripId, req.body)
+    .then((added) => {
+      res.status(200).json(added);
+    })
+    .catch((err) => {
+      res.status(500).json({
+        error:
+          "could not give specified friend access to specified trip via request parameters (trip id) and request body (friend username)",
+        err,
+      });
     });
 });
 
@@ -82,6 +97,21 @@ router.get("/join", authMW, checkRole("admin"), (req, res) => {
       res
         .status(500)
         .json({ error: "Error getting Join Table for Friends and Trips" });
+    });
+});
+
+// add trip to friends list of trips
+router.post("/userJoin/:tripId", authMW, checkRole("admin"), (req, res) => {
+  Trip.addJoin(req.params.tripId, req.body)
+    .then((added) => {
+      res.status(200).json(added);
+    })
+    .catch((err) => {
+      res.status(500).json({
+        error:
+          "could not give specified friend access to specified trip via request parameters (trip id) and request body (friend username)",
+        err,
+      });
     });
 });
 

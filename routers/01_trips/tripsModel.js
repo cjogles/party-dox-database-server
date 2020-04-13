@@ -4,6 +4,23 @@ module.exports = {
   getJoin() {
     return db("friend_trips");
   },
+  addJoin(tripId, friendToAdd) {
+    return db.transaction((trx) => {
+      return db("friends")
+        .where("username", friendToAdd.username)
+        .returning("*")
+        .then((res) => {
+          return db("friend_trips")
+            .insert({
+              friend_id: res[0].id,
+              trip_id: tripId,
+            })
+            .returning("*");
+        })
+        .then(trx.commit)
+        .catch(trx.rollback);
+    });
+  },
   getAllTrips() {
     return db("trips");
   },
@@ -36,12 +53,39 @@ module.exports = {
   },
   deleteTrip(tripId) {
     return db.transaction((trx) => {
-      return db("friend_trips")
+      return db("flights")
         .transacting(trx)
         .where("trip_id", tripId)
         .del()
         .then((res) => {
-          return db("trips").transacting(trx).where("id", tripId).del();
+          return db("parking")
+            .transacting(trx)
+            .where("trip_id", tripId)
+            .del()
+            .then((res) => {
+              return db("shopping_lists")
+                .transacting(trx)
+                .where("trip_id", tripId)
+                .del()
+                .then((res) => {
+                  return db("activities")
+                    .transacting(trx)
+                    .where("trip_id", tripId)
+                    .del()
+                    .then((res) => {
+                      return db("friend_trips")
+                        .transacting(trx)
+                        .where("trip_id", tripId)
+                        .del()
+                        .then((res) => {
+                          return db("trips")
+                            .transacting(trx)
+                            .where("id", tripId)
+                            .del();
+                        });
+                    });
+                });
+            });
         })
         .then(trx.commit)
         .catch(trx.rollback);
