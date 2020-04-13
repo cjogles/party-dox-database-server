@@ -25,7 +25,7 @@ module.exports = {
           return db("friend_trips")
             .transacting(trx)
             .insert({ friend_id: friend_id, trip_id: res[0] })
-            .returning("trip_id");
+            .returning("*");
         })
         .then(trx.commit)
         .catch(trx.rollback);
@@ -33,5 +33,18 @@ module.exports = {
   },
   updateTrip(trip_id, newTrip) {
     return db("trips").where("id", trip_id).update(newTrip, "*");
+  },
+  deleteTrip(tripId) {
+    return db.transaction((trx) => {
+      return db("friend_trips")
+        .transacting(trx)
+        .where("trip_id", tripId)
+        .del()
+        .then((res) => {
+          return db("trips").transacting(trx).where("id", tripId).del();
+        })
+        .then(trx.commit)
+        .catch(trx.rollback);
+    });
   },
 };

@@ -19,7 +19,7 @@ server.use(express.json());
 
 server.use("/friends", friendRouter);
 server.use("/trips", tripRouter);
-server.use("/activities", activityRouter);
+server.use("/activity", activityRouter);
 server.use("/shopping", shoppingRouter);
 server.use("/parking", parkingRouter);
 server.use("/flights", flightRouter);

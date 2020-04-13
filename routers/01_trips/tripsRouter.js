@@ -51,18 +51,40 @@ router.put("/user/:id/trip/:tripId", authMW, checkFriend, (req, res) => {
     });
 });
 
-// ROUTES FOR LOGGED IN ADMIN
-router.get("/tripJoin", (req, res) => {
-  Trip.getJoin()
-    .then((join) => {
-      res.status(200).json(join);
+router.delete("/user/:id/trip/:tripId", authMW, checkFriend, (req, res) => {
+  Trip.deleteTrip(req.params.tripId)
+    .then((deleted) => {
+      if (deleted === 0) {
+        res.status(400).json({
+          message:
+            "Nothing Deleted. Likely because the trip you specified doesn't exist.",
+        });
+      } else {
+        res
+          .status(200)
+          .json({ message: "number of data entries deleted", deleted });
+      }
     })
     .catch((err) => {
       res
         .status(500)
-        .json({ error: "problem getting join table for trips and friends" });
+        .json({ error: "Error deleting a trip from friends account.", err });
     });
 });
+
+// ROUTES FOR LOGGED IN ADMIN
+router.get("/join", authMW, checkRole("admin"), (req, res) => {
+  Trip.getJoin()
+    .then((retrieved) => {
+      res.status(200).json(retrieved);
+    })
+    .catch((err) => {
+      res
+        .status(500)
+        .json({ error: "Error getting Join Table for Friends and Trips" });
+    });
+});
+
 router.get("/", authMW, checkRole("admin"), (req, res) => {
   Trip.getAllTrips()
     .then((trips) => res.status(200).json(trips))
@@ -103,4 +125,26 @@ router.put("/user/:tripId", authMW, checkRole("admin"), (req, res) => {
       });
     });
 });
+
+router.delete("/user/:tripId", authMW, checkRole("admin"), (req, res) => {
+  Trip.deleteTrip(req.params.tripId)
+    .then((deleted) => {
+      if (deleted === 0) {
+        res.status(400).json({
+          message:
+            "Nothing Deleted. Likely because the trip you specified doesn't exist.",
+        });
+      } else {
+        res
+          .status(200)
+          .json({ message: "number of data entries deleted", deleted });
+      }
+    })
+    .catch((err) => {
+      res
+        .status(500)
+        .json({ error: "Error deleting a trip from friends account.", err });
+    });
+});
+
 module.exports = router;
