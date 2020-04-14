@@ -4,9 +4,9 @@
   "description": "party-dox-database-server",
   "main": "index.js",
   "scripts": {
-    "test": "cross-env DB_ENV=test jest --watch --verbose --runInBand --detectOpenHandles",
+    "start": "nodemon index.js",
     "server": "nodemon index.js",
-    "start": "nodemon index.js"
+    "test": "cross-env DB_ENV=test jest --watch --verbose --runInBand --detectOpenHandles"
   },
   "repository": {
     "type": "git",
