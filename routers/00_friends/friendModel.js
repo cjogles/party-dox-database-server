@@ -20,16 +20,16 @@ module.exports = {
   findBy(friend) {
     return db("friends").where(friend);
   },
-  FindById(id) {
-    return db("friends").where("id", id).select("*");
+  FindById(friendId) {
+    return db("friends").where("id", friendId).select("*");
   },
-  add(friend) {
-    return db("friends").insert(friend, "*");
+  add(newFriend) {
+    return db("friends").insert(newFriend, "*");
   },
-  update(id, friend) {
-    return db("friends").where("id", id).update(friend, "*");
+  update(friendId, newFriendInfo) {
+    return db("friends").where("id", friendId).update(newFriendInfo, "*");
   },
-  delete(id) {
-    return db("friends").where("id", id).del();
+  delete(friendId) {
+    return db("friends").where("id", friendId).del();
   },
 };
