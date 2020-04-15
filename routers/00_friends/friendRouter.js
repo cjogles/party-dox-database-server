@@ -57,7 +57,11 @@ router.post("/register", (req, res, next) => {
       .catch((error) => {
         res
           .status(500)
-          .json({ message: "Could not add the friend to partydox.", error });
+          .json({
+            errorMessage: error.message,
+            error: "Could not add the friend to partydox.",
+            error,
+          });
       });
   } else {
     next(new Error("Invalid Friend"));
