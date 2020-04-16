@@ -35,9 +35,10 @@ router.post("/register", (req, res, next) => {
           .then((friend) => {
             if (friend && password === friend.password) {
               const token = generateToken(friend);
-              res
-                .status(200)
-                .json({ message: `Welcome, ${friend.username}.`, token });
+              res.status(200).json({
+                message: `Welcome, ${friend.username} your friend ID is ${friend.id}.`,
+                token,
+              });
             } else if (
               friend &&
               bcrypt.compareSync(password, friend.password)
@@ -55,13 +56,11 @@ router.post("/register", (req, res, next) => {
           });
       })
       .catch((error) => {
-        res
-          .status(500)
-          .json({
-            errorMessage: error.message,
-            error: "Could not add the friend to partydox.",
-            error,
-          });
+        res.status(500).json({
+          errorMessage: error.message,
+          error: "Could not add the friend to partydox.",
+          error,
+        });
       });
   } else {
     next(new Error("Invalid Friend"));
@@ -82,7 +81,10 @@ router.post("/login", (req, res) => {
         const token = generateToken(friend);
         res
           .status(200)
-          .json({ message: `Welcome, ${friend.username}.`, token });
+          .json({
+            message: `Welcome, ${friend.username} your friend ID is ${friend.id}..`,
+            token,
+          });
       } else {
         res.status(401).json({ message: "Invalid credentials." });
       }
