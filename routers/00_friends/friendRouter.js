@@ -37,6 +37,8 @@ router.post("/register", (req, res, next) => {
               const token = generateToken(friend);
               res.status(200).json({
                 message: `Welcome, ${friend.username} your friend ID is ${friend.id}.`,
+                username: friend.username,
+                id: friend.id,
                 token,
               });
             } else if (
@@ -44,9 +46,12 @@ router.post("/register", (req, res, next) => {
               bcrypt.compareSync(password, friend.password)
             ) {
               const token = generateToken(friend);
-              res
-                .status(200)
-                .json({ message: `Welcome, ${friend.username}.`, token });
+              res.status(200).json({
+                message: `Welcome, ${friend.username}.`,
+                username: friend.username,
+                id: friend.id,
+                token,
+              });
             } else {
               res.status(401).json({ message: "Invalid credentials." });
             }
@@ -74,17 +79,20 @@ router.post("/login", (req, res) => {
     .then((friend) => {
       if (friend && password === friend.password) {
         const token = generateToken(friend);
-        res
-          .status(200)
-          .json({ message: `Welcome, ${friend.username}.`, token });
+        res.status(200).json({
+          message: `Welcome, ${friend.username}.`,
+          username: friend.username,
+          id: friend.id,
+          token,
+        });
       } else if (friend && bcrypt.compareSync(password, friend.password)) {
         const token = generateToken(friend);
-        res
-          .status(200)
-          .json({
-            message: `Welcome, ${friend.username} your friend ID is ${friend.id}..`,
-            token,
-          });
+        res.status(200).json({
+          message: `Welcome, ${friend.username} your friend ID is ${friend.id}.`,
+          username: friend.username,
+          id: friend.id,
+          token,
+        });
       } else {
         res.status(401).json({ message: "Invalid credentials." });
       }
