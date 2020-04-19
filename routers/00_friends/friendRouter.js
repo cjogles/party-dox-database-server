@@ -39,6 +39,7 @@ router.post("/register", (req, res, next) => {
                 message: `Welcome, ${friend.username} your friend ID is ${friend.id}.`,
                 username: friend.username,
                 id: friend.id,
+                name: friend.friend_name,
                 token,
               });
             } else if (
@@ -50,6 +51,7 @@ router.post("/register", (req, res, next) => {
                 message: `Welcome, ${friend.username}.`,
                 username: friend.username,
                 id: friend.id,
+                name: friend.friend_name,
                 token,
               });
             } else {
@@ -83,6 +85,7 @@ router.post("/login", (req, res) => {
           message: `Welcome, ${friend.username}.`,
           username: friend.username,
           id: friend.id,
+          name: friend.friend_name,
           token,
         });
       } else if (friend && bcrypt.compareSync(password, friend.password)) {
@@ -91,6 +94,7 @@ router.post("/login", (req, res) => {
           message: `Welcome, ${friend.username} your friend ID is ${friend.id}.`,
           username: friend.username,
           id: friend.id,
+          name: friend.friend_name,
           token,
         });
       } else {
