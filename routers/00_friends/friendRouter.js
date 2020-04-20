@@ -86,6 +86,10 @@ router.post("/login", (req, res) => {
           username: friend.username,
           id: friend.id,
           name: friend.friend_name,
+          role: friend.role,
+          friend_profile_pic: friend.friend_profile_pic,
+          friend_email: friend.friend_email,
+          friend_phone: friend.friend_phone,
           token,
         });
       } else if (friend && bcrypt.compareSync(password, friend.password)) {
@@ -95,6 +99,10 @@ router.post("/login", (req, res) => {
           username: friend.username,
           id: friend.id,
           name: friend.friend_name,
+          role: friend.role,
+          friend_profile_pic: friend.friend_profile_pic,
+          friend_email: friend.friend_email,
+          friend_phone: friend.friend_phone,
           token,
         });
       } else {
