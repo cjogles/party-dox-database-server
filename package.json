@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "server": "node index.js",
+    "server": "nodemon index.js",
     "test": "cross-env DB_ENV=test jest --watch --verbose --runInBand --detectOpenHandles"
   },
   "repository": {

@@ -87,6 +87,20 @@ router.delete("/user/:id/trip/:tripId", authMW, checkFriend, (req, res) => {
     });
 });
 
+router.get("/:id/tripFriends/:tripId", authMW, checkFriend, (req, res) => {
+  Trip.getFriendList(req.params.tripId)
+    .then((friendIdList) => {
+      res.status(200).json(friendIdList);
+    })
+    .catch((err) => {
+      res
+        .status(500)
+        .json({
+          error: "Error getting List of Friends going on specified trip",
+        });
+    });
+});
+
 // ROUTES FOR LOGGED IN ADMIN
 router.get("/join", authMW, checkRole("admin"), (req, res) => {
   Trip.getJoin()

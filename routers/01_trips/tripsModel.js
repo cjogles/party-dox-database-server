@@ -4,6 +4,9 @@ module.exports = {
   getJoin() {
     return db("friend_trips");
   },
+  getFriendList(tripId) {
+    return db("friend_trips").where("trip_id", tripId).select("friend_id");
+  },
   addJoin(tripId, friendToAdd) {
     return db.transaction((trx) => {
       return db("friends")
