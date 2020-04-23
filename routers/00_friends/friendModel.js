@@ -23,7 +23,7 @@ module.exports = {
   FindById(friendId) {
     return db("friends")
       .where("id", friendId)
-      .select("id", "friend_name", "username", "friend_email", "friend_phone");
+      .select("id", "friend_name", "username");
   },
   add(newFriend) {
     return db("friends").insert(newFriend, "*");

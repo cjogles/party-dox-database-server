@@ -36,10 +36,10 @@ router.post("/register", (req, res, next) => {
             if (friend && password === friend.password) {
               const token = generateToken(friend);
               res.status(200).json({
-                message: `Welcome, ${friend.username} your friend ID is ${friend.id}.`,
-                username: friend.username,
+                message: `Welcome, ${friend.username}.`,
                 id: friend.id,
                 name: friend.friend_name,
+                username: friend.username,
                 token,
               });
             } else if (
@@ -49,9 +49,9 @@ router.post("/register", (req, res, next) => {
               const token = generateToken(friend);
               res.status(200).json({
                 message: `Welcome, ${friend.username}.`,
-                username: friend.username,
                 id: friend.id,
                 name: friend.friend_name,
+                username: friend.username,
                 token,
               });
             } else {
@@ -83,26 +83,18 @@ router.post("/login", (req, res) => {
         const token = generateToken(friend);
         res.status(200).json({
           message: `Welcome, ${friend.username}.`,
-          username: friend.username,
           id: friend.id,
           name: friend.friend_name,
-          role: friend.role,
-          friend_profile_pic: friend.friend_profile_pic,
-          friend_email: friend.friend_email,
-          friend_phone: friend.friend_phone,
+          username: friend.username,
           token,
         });
       } else if (friend && bcrypt.compareSync(password, friend.password)) {
         const token = generateToken(friend);
         res.status(200).json({
-          message: `Welcome, ${friend.username} your friend ID is ${friend.id}.`,
-          username: friend.username,
+          message: `Welcome, ${friend.username}.`,
           id: friend.id,
           name: friend.friend_name,
-          role: friend.role,
-          friend_profile_pic: friend.friend_profile_pic,
-          friend_email: friend.friend_email,
-          friend_phone: friend.friend_phone,
+          username: friend.username,
           token,
         });
       } else {
