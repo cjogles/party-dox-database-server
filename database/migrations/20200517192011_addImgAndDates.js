@@ -4,16 +4,34 @@ exports.up = function (knex) {
       friend.binary("friend_profile_pic").alter();
     })
     .alterTable("trips", (trip) => {
-      trip.timestamp("trip_start_date").alter();
-      trip.timestamp("trip_end_date").alter();
+      trip
+        .timestamp("trip_start_date", { precision: 6 })
+        .defaultTo(knex.fn.now(6))
+        .alter();
+      trip
+        .timestamp("trip_end_date", { precision: 6 })
+        .defaultTo(knex.fn.now(6))
+        .alter();
     })
     .alterTable("activities", (activity) => {
-      activity.timestamp("activity_start_date").alter();
-      activity.timestamp("activity_end_date").alter();
+      activity
+        .timestamp("activity_start_date", { precision: 6 })
+        .defaultTo(knex.fn.now(6))
+        .alter();
+      activity
+        .timestamp("activity_end_date", { precision: 6 })
+        .defaultTo(knex.fn.now(6))
+        .alter();
     })
     .alterTable("flights", (flight) => {
-      flight.timestamp("departure_date").alter();
-      flight.timestamp("arrival_date").alter();
+      flight
+        .timestamp("departure_date", { precision: 6 })
+        .defaultTo(knex.fn.now(6))
+        .alter();
+      flight
+        .timestamp("arrival_date", { precision: 6 })
+        .defaultTo(knex.fn.now(6))
+        .alter();
     });
 };
 
