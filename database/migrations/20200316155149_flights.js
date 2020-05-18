@@ -9,7 +9,7 @@ exports.up = function (knex) {
         .inTable("trips")
         .onDelete("CASCADE")
         .onUpdate("CASCADE");
-      flight.string("departure_date");
+      flight.timestamp("departure_date");
       flight.string("departure_airport_name");
       flight.string("departure_airport_address");
       flight.string("departure_airport_phone");
@@ -18,7 +18,7 @@ exports.up = function (knex) {
       flight.string("departure_terminal");
       flight.string("departure_gate");
       flight.string("departure_flight_notes");
-      flight.string("arrival_date");
+      flight.timestamp("arrival_date");
       flight.string("arrival_airport_name");
       flight.string("arrival_airport_address");
       flight.string("arrival_airport_phone");

@@ -1,5 +1,5 @@
-exports.up = function(knex) {
-  return knex.schema.createTable("activities", activity => {
+exports.up = function (knex) {
+  return knex.schema.createTable("activities", (activity) => {
     activity.increments("id");
     activity
       .integer("trip_id")
@@ -10,14 +10,14 @@ exports.up = function(knex) {
       .onUpdate("CASCADE");
     activity.string("activity_name").notNullable();
     activity.string("activity_description");
-    activity.string("activity_start_date");
-    activity.string("activity_end_date");
+    activity.timestamp("activity_start_date");
+    activity.timestamp("activity_end_date");
     activity.string("activity_address");
     activity.string("activity_phone");
     activity.integer("activity_upvote");
     activity.string("activity_notes");
   });
 };
-exports.down = function(knex) {
+exports.down = function (knex) {
   return knex.schema.dropTableIfExists("activities");
 };
