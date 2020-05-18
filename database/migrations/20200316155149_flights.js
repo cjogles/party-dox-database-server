@@ -1,6 +1,6 @@
-exports.up = function(knex) {
+exports.up = function (knex) {
   return knex.schema
-    .createTable("flights", flight => {
+    .createTable("flights", (flight) => {
       flight.increments("id");
       flight
         .integer("trip_id")
@@ -30,7 +30,7 @@ exports.up = function(knex) {
       flight.string("total_flight_cost");
       flight.integer("flight_combo_upvote");
     })
-    .createTable("friend_trips", friendTrips => {
+    .createTable("friend_trips", (friendTrips) => {
       friendTrips
         .integer("friend_id")
         .unsigned()
@@ -50,7 +50,7 @@ exports.up = function(knex) {
         .primary(["friend_id", "trip_id"]);
     });
 };
-exports.down = function(knex) {
+exports.down = function (knex) {
   return knex.schema
     .dropTableIfExists("flights")
     .dropTableIfExists("friend_trips");
