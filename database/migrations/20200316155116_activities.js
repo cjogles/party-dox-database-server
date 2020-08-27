@@ -10,8 +10,8 @@ exports.up = function (knex) {
       .onUpdate("CASCADE");
     activity.string("activity_name").notNullable();
     activity.string("activity_description");
-    activity.timestamp("activity_start_date");
-    activity.timestamp("activity_end_date");
+    activity.string("activity_start_date");
+    activity.string("activity_end_date");
     activity.string("activity_address");
     activity.string("activity_phone");
     activity.integer("activity_upvote");

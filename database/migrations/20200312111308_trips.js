@@ -6,8 +6,8 @@ exports.up = function (knex) {
     trip.string("trip_location");
     trip.string("trip_lift_off_location");
     trip.string("trip_car");
-    trip.timestamp("trip_start_date");
-    trip.timestamp("trip_end_date");
+    trip.string("trip_start_date");
+    trip.string("trip_end_date");
     trip.integer("trip_upvote");
     trip.string("trip_notes");
   });
